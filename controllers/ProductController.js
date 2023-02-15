@@ -41,7 +41,7 @@ exports.show = async function (req, res) {
 exports.create = async function (req, res) {
   let newProduct = Product.build(req.body)
   if (typeof req.file !== 'undefined') {
-    newProduct.image = req.file.path
+    newProduct.image = req.file.destination + '/' + req.file.filename
   }
   try {
     newProduct = await newProduct.save()
@@ -53,7 +53,7 @@ exports.create = async function (req, res) {
 
 exports.update = async function (req, res) {
   if (typeof req.file !== 'undefined') {
-    req.body.image = req.file.path
+    req.body.image = req.file.destination + '/' + req.file.filename
   }
   try {
     await Product.update(req.body, { where: { id: req.params.productId } })

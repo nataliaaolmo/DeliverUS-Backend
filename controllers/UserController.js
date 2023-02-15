@@ -70,7 +70,7 @@ exports.show = async function (req, res) {
 
 exports.update = async function (req, res) {
   if (typeof req.file !== 'undefined') {
-    req.body.avatar = req.file.path
+    req.body.avatar = req.file.destination + '/' + req.file.filename
   }
   try {
     await User.update(req.body, { where: { id: req.user.id } })
@@ -104,7 +104,7 @@ const _register = async (req, res, userType) => {
   expirationDate.setHours(expirationDate.getHours() + 1)
   newUser.tokenExpiration = expirationDate
   if (typeof req.file !== 'undefined') {
-    newUser.avatar = req.file.path
+    newUser.avatar = req.file.destination + '/' + req.file.filename
   }
   try {
     const registeredUser = await newUser.save()

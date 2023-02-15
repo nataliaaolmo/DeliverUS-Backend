@@ -42,10 +42,10 @@ exports.create = async function (req, res) {
   newRestaurant.userId = req.user.id // usuario actualmente autenticado
 
   if (typeof req.files?.heroImage !== 'undefined') {
-    newRestaurant.heroImage = req.files.heroImage[0].path
+    newRestaurant.heroImage = req.files.heroImage[0].destination + '/' + req.files.heroImage[0].filename
   }
   if (typeof req.files?.logo !== 'undefined') {
-    newRestaurant.logo = req.files.logo[0].path
+    newRestaurant.logo = req.files.logo[0].destination + '/' + req.files.logo[0].filename
   }
   try {
     const restaurant = await newRestaurant.save()
@@ -80,10 +80,10 @@ exports.show = async function (req, res) {
 
 exports.update = async function (req, res) {
   if (typeof req.files?.heroImage !== 'undefined') {
-    req.body.heroImage = req.files.heroImage[0].path
+    req.body.heroImage = req.files.heroImage[0].destination + '/' + req.files.heroImage[0].filename
   }
   if (typeof req.files?.logo !== 'undefined') {
-    req.body.logo = req.files.logo[0].path
+    req.body.logo = req.files.logo[0].destination + '/' + req.files.logo[0].filename
   }
   try {
     await Restaurant.update(req.body, { where: { id: req.params.restaurantId } })
